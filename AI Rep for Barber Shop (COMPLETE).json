@@ -1,0 +1,454 @@
+{
+  "name": "AI Rep for Barber Shop (COMPLETE)",
+  "nodes": [
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "efa07fcf-370b-48ff-a8db-5d1bf42776fb",
+              "name": "date",
+              "value": "={{ $json.body.message.toolCalls[0].function.arguments.date }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -48,
+        0
+      ],
+      "id": "aef12c57-f28b-45c5-9aea-d78d4fdfbf11",
+      "name": "set"
+    },
+    {
+      "parameters": {
+        "jsCode": "const booked = [];\nfor (const item of items) {\n  const start = item.json?.[\"start_time\"]; \n  const end = item.json?.[\"end_time\"];\n  if (start && end) {\n    booked.push({ start, end });\n  }\n}\nreturn [{ json: { booked } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        368,
+        0
+      ],
+      "id": "8f92f2ae-5c5e-4936-b92a-75e6e5bf3001",
+      "name": "check booked"
+    },
+    {
+      "parameters": {
+        "jsCode": "function toMinutes(t) {\n  const [h, m] = t.split(':').map(Number);\n  return h * 60 + m;\n}\nfunction toTime(m) {\n  const h = String(Math.floor(m / 60)).padStart(2, '0');\n  const min = String(m % 60).padStart(2, '0');\n  return `${h}:${min}`;\n}\nconst OPEN = toMinutes(\"09:00\");\nconst CLOSE = toMinutes(\"18:00\");\nconst SLOT = 30;\nconst bookedData = $input.item.json.booked || [];\nconst booked = bookedData.map(b => ({\n  start: toMinutes(b.start),\n  end: toMinutes(b.end),\n}));\nconst available = [];\nfor (let t = OPEN; t + SLOT <= CLOSE; t += SLOT) {\n  const overlap = booked.some(b => t < b.end && (t + SLOT) > b.start);\n  if (!overlap) {\n    available.push({ start: toTime(t), end: toTime(t + SLOT) });\n  }\n}\nreturn [{ json: { available } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        576,
+        0
+      ],
+      "id": "01f3eb0d-6aee-4f97-91a2-9af06dcd6caf",
+      "name": "get-availability"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"results\": [\n    {\n      \"toolCallId\": \"{{ $node[\"getslot\"].json[\"body\"][\"message\"][\"toolCalls\"][0][\"id\"] }}\",\n      \"result\": \"I found these openings: {{ $json[\"resultString\"] }}. Which one works best?\"\n    }\n  ]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        992,
+        0
+      ],
+      "id": "91e22793-7c3f-46d9-9eea-9135ca395cb2",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "jsCode": "const inputData = $input.all();\nconst slots = inputData[0].json.available || [];\nconst times = slots.slice(0, 5).map(slot => slot.start);\nconst timeSentence = times.join(', ');\nreturn { resultString: timeSentence || \"no openings\" };"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        784,
+        0
+      ],
+      "id": "f68ac110-54f7-49bb-b418-a234f4c00d2a",
+      "name": "filter"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "check-availability",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -256,
+        0
+      ],
+      "id": "9fdab266-fba8-4e9b-b9a9-f0f3e0224ef1",
+      "name": "getslot",
+      "webhookId": "a3c70a19-9974-4f99-997a-90e7cef8e0f2"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1nfWprQgE2i9RqwiMTfS4wXF3tsIIHAUkf_-1S25eG_w",
+          "mode": "list"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "date",
+              "lookupValue": "={{ $json.date }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        160,
+        0
+      ],
+      "id": "36085eda-943b-496a-a0ce-ea43efce3f6c",
+      "name": "get-database",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "HfqlzalmNeLwZLJ6",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "sierra-booking-success",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -256,
+        304
+      ],
+      "id": "f0fa97c4-d31f-4b1e-91cd-476d233042d1",
+      "name": "addnew",
+      "webhookId": "1bae9591-44fe-4364-ab2f-5d7deba0f618"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "52e8a1f3-9fb7-41f6-bb1d-83e7f1b2c7ac",
+              "name": "Name",
+              "value": "={{ $json.body.message.toolCalls[0].function.arguments.name }}",
+              "type": "string"
+            },
+            {
+              "id": "a0566b4b-51fe-4d6f-bc07-b8d40054ede9",
+              "name": "Date",
+              "value": "={{ $json.body.message.toolCalls[0].function.arguments.date }}",
+              "type": "string"
+            },
+            {
+              "id": "d2056b5a-0c55-4918-969a-7af5e93f0c17",
+              "name": "Phone",
+              "value": "={{ $json.body.message.toolCalls[0].function.arguments.phone }}",
+              "type": "string"
+            },
+            {
+              "id": "2192b856-4df3-45b0-b17e-e01e8a09f6ca",
+              "name": "Slot",
+              "value": "={{ $json.body.message.toolCalls[0].function.arguments.slot }}",
+              "type": "string"
+            },
+            {
+              "id": "b46d3116-715d-4b06-a9c5-97ea9aa03eea",
+              "name": "Service",
+              "value": "={{ $json.body.message.toolCalls[0].function.arguments.service }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -48,
+        304
+      ],
+      "id": "50482527-cd78-4404-8695-d2a6d4192612",
+      "name": "set1"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1nfWprQgE2i9RqwiMTfS4wXF3tsIIHAUkf_-1S25eG_w",
+          "mode": "list"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {}
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        160,
+        304
+      ],
+      "id": "f167827b-b4c2-4e14-a50d-539aa2591b95",
+      "name": "Add-new-booked",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "HfqlzalmNeLwZLJ6",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "7427007352",
+        "text": "=🔔 New Appointment, Boss! 🔔\n\n👤 Client: {{ $json.Name }}\n💇 Service: {{ $json.Service }}\n📅 Date: {{ $json.Date }}\n⏰ Time: {{ $json.Slot }}\n📞 Phone: {{ $json.Phone }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        800,
+        304
+      ],
+      "id": "72ff8099-4188-4dd0-b129-1867bacfbf65",
+      "name": "Notify-owner",
+      "webhookId": "0d709005-34b8-419f-b041-94ad5ee1a4e4"
+    },
+    {
+      "parameters": {
+        "chatId": "7427007352",
+        "text": "=🎉 Yay {{ $json.Name }}, you're all booked in!\n\n✂️ Service: {{ $json.Service }}\n📅 Date: {{ $json.Date }}\n⏰ Time: {{ $json.Slot }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        384,
+        192
+      ],
+      "id": "9c1f7087-f711-431a-8241-374642a3b7df",
+      "name": "Notify-Clients",
+      "webhookId": "ece42bc0-b913-400c-adcc-5b750a97e515"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get data from the Google Sheet node\nconst input = $input.item.json;\nconst slot = input.Slot; // This is \"11:00\"\n\nlet startTime = slot;\nlet endTime;\n\n// Logic to create a 30-minute window\nif (slot.includes(':')) {\n    let [hours, minutes] = slot.split(':');\n    if (minutes === '00') {\n        endTime = `${hours}:30`;\n    } else if (minutes === '30') {\n        endTime = `${parseInt(hours) + 1}:00`;\n    } else {\n        endTime = `${hours}:59`;\n    }\n}\n\nreturn {\n  name: input.Name,\n  date: input.Date,\n  service: input.Service,\n  phone: input.Phone,\n  start_time: startTime,\n  end_time: endTime\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        384,
+        416
+      ],
+      "id": "f8285668-d0e8-4098-8ff4-45a9e371ef4f",
+      "name": "start/end time"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1nfWprQgE2i9RqwiMTfS4wXF3tsIIHAUkf_-1S25eG_w",
+          "mode": "list"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "name": "={{ $json.name }}",
+            "date": "={{ $json.date }}",
+            "service": "={{ $json.service }}",
+            "phone": "={{ $json.phone }}",
+            "start_time": "={{ $json.start_time }}",
+            "end_time": "={{ $json.end_time }}"
+          }
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        608,
+        416
+      ],
+      "id": "d414e02e-cd10-48f1-8119-f38daf0298eb",
+      "name": "get-database-update",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "HfqlzalmNeLwZLJ6",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "getslot": {
+      "main": [
+        [
+          {
+            "node": "set",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "set": {
+      "main": [
+        [
+          {
+            "node": "get-database",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get-database": {
+      "main": [
+        [
+          {
+            "node": "check booked",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "check booked": {
+      "main": [
+        [
+          {
+            "node": "get-availability",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get-availability": {
+      "main": [
+        [
+          {
+            "node": "filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "filter": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "addnew": {
+      "main": [
+        [
+          {
+            "node": "set1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "set1": {
+      "main": [
+        [
+          {
+            "node": "Add-new-booked",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add-new-booked": {
+      "main": [
+        [
+          {
+            "node": "Notify-owner",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Notify-Clients",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "start/end time",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "start/end time": {
+      "main": [
+        [
+          {
+            "node": "get-database-update",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "74ca45a6-7af0-41b6-bbf5-622c78c56ec5",
+  "meta": {
+    "instanceId": "16c95c728c85525b3f0ca877cae01c87a6ca4bc4bb2596f8cf785f799cdf3d61"
+  },
+  "id": "AfpJ98opJFtmhXFVDyL3H",
+  "tags": []
+}
