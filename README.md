@@ -89,5 +89,5 @@ Before running the workflow, you must fill in your own:
 | Sagar Mandal | F24029007080 |
 | Maaz Manzar | F24029007045 |
 
-**Guide:** Name of Project Guide, C.V. Raman Polytechnic  
+**Guide:** Ipsita Ankita Hota , C.V. Raman Polytechnic  
 **Academic Year:** 2026
