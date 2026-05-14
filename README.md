@@ -30,6 +30,9 @@ The system has two automated paths:
 | Telegram Bot API | Notifications to owner and customer |
 | ngrok | Exposes local n8n server to the internet |
 
+
+## LOGIC BLUEPRINT
+
 <img width="817" height="597" alt="image" src="https://github.com/user-attachments/assets/95cf2fbe-3121-4beb-8dba-2b983fe310a9" />
 
 ---
