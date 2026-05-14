@@ -30,6 +30,8 @@ The system has two automated paths:
 | Telegram Bot API | Notifications to owner and customer |
 | ngrok | Exposes local n8n server to the internet |
 
+<img width="817" height="597" alt="image" src="https://github.com/user-attachments/assets/95cf2fbe-3121-4beb-8dba-2b983fe310a9" />
+
 ---
 
 ## Project Files
@@ -53,6 +55,8 @@ The system has two automated paths:
 - A Google account with access to the shared Google Sheet
 - A Vapi.ai account
 - An Android phone with the SMS Gateway app (optional, for SMS)
+- <img width="251" height="493" alt="image" src="https://github.com/user-attachments/assets/364d7ff6-e0fe-443f-92e5-cc7ff8c74f83" />
+
 
 **Steps**
 
