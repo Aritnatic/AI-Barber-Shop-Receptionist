@@ -10,6 +10,19 @@ A minor project submitted for the 4th Semester Diploma in Computer Science & Eng
 This project is an AI-powered voice receptionist that automates appointment booking for a barber shop. A customer calls and speaks to **Riley**, an AI voice assistant, who handles the entire booking process — checking availability, collecting details, confirming the appointment, and sending notifications — without any human involvement from the shop side.
 
 ---
+---
+## Contents
+
+| File | Description |
+|------|-------------|
+| `AI Rep for Barber Shop (COMPLETE).json` | n8n workflow file — import this into n8n |
+| `Minor_Project_Report_AI_Barber_Shop.docx` | Full project report (20 pages) |
+| `USER_GUIDE.pdf` | Step-by-step setup guide with screenshots |
+| `README.md` | This file |
+
+---
+
+
 
 ## How It Works
 
