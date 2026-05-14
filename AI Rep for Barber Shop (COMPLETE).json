@@ -11,10 +11,10 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
       "position": [
-        -912,
-        96
+        -1008,
+        128
       ],
-      "id": "137a1a83-2978-4664-98e3-6d09a58d8d51",
+      "id": "33769286-55c9-4e68-8b7c-06c779612e76",
       "name": "getslot",
       "webhookId": "a3c70a19-9974-4f99-997a-90e7cef8e0f2",
       "notes": "Triggered when Riley (the AI) asks if a specific time is free."
@@ -48,10 +48,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        -256,
-        96
+        -352,
+        128
       ],
-      "id": "fa29ccf5-0153-4e13-add1-2f4dade4573b",
+      "id": "0139cc18-d2ab-4585-a70c-3b3b621886d6",
       "name": "Is Slot Free?",
       "notes": "Overlap Check: Compares Riley's request to 'Start_Time' and 'End_Time' to find conflicts."
     },
@@ -64,10 +64,10 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.5,
       "position": [
-        96,
-        -32
+        0,
+        0
       ],
-      "id": "86b51a75-bba3-4762-b612-8f94b86f5839",
+      "id": "f6558587-5736-4995-b531-b146672fc337",
       "name": "Tell Riley: YES"
     },
     {
@@ -79,10 +79,10 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.5,
       "position": [
-        96,
-        192
+        0,
+        224
       ],
-      "id": "7a9b94ee-5152-470d-aa50-e020bec45a80",
+      "id": "b2b7f27a-7468-4dac-99e2-448daf873e8a",
       "name": "Tell Riley: NO"
     },
     {
@@ -92,31 +92,31 @@
             {
               "id": "7975a8f1-cfdf-4b00-85ff-05515ce44894",
               "name": "Name",
-              "value": "={{ $json.body.message.toolCalls[0].function.arguments.name }}",
+              "value": "={{ Object.values($json.body.message.toolCalls[0].function)[1].name }}",
               "type": "string"
             },
             {
               "id": "212dae1f-2892-4b41-9afc-658cccc52b4a",
               "name": "Phone",
-              "value": "={{ $json.body.message.toolCalls[0].function.arguments.phone }}",
+              "value": "={{ Object.values($json.body.message.toolCalls[0].function)[1].phone }}",
               "type": "string"
             },
             {
               "id": "410e52ff-4f59-4160-a5a4-5c3d94501ece",
               "name": "Service",
-              "value": "={{ $json.body.message.toolCalls[0].function.arguments.service }}",
+              "value": "={{ Object.values($json.body.message.toolCalls[0].function)[1].service}}",
               "type": "string"
             },
             {
               "id": "a6452dcb-8119-4e13-89ab-2f61dca78477",
               "name": "Start_Time",
-              "value": "={{ $json.body.message.toolCalls[0].function.arguments.time }}",
+              "value": "={{ Object.values($json.body.message.toolCalls[0].function)[1].time }}",
               "type": "string"
             },
             {
               "id": "c2e607db-8479-43ca-a682-f2c30c117081",
               "name": "Date",
-              "value": "={{ $json.body.message.toolCalls[0].function.arguments.date }}",
+              "value": "={{ Object.values($json.body.message.toolCalls[0].function)[1].date }}",
               "type": "string"
             },
             {
@@ -134,13 +134,13 @@
             {
               "id": "b022a712-11c7-4572-8db8-dddc024fac99",
               "name": "Total_Price",
-              "value": "={{ $json.body.message.toolCalls[0].function.arguments.total_price }}",
+              "value": "={{ Object.values($json.body.message.toolCalls[0].function)[1].total_price }}",
               "type": "string"
             },
             {
               "id": "6df7227c-3783-4288-9021-2653f86289f1",
               "name": "Total_Duration",
-              "value": "={{ $json.body.message.toolCalls[0].function.arguments.total_duration }}",
+              "value": "={{ Object.values($json.body.message.toolCalls[0].function)[1].total_duration }}",
               "type": "string"
             }
           ]
@@ -150,10 +150,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -688,
-        560
+        -784,
+        592
       ],
-      "id": "9db425c5-ec42-41df-8983-7e7aac49b9a2",
+      "id": "feff236c-ad0a-41b9-823b-7ecdadbfcc3b",
       "name": "Extract: Customer Details"
     },
     {
@@ -296,15 +296,15 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        -496,
-        560
+        -592,
+        592
       ],
-      "id": "6fc6f775-d5f4-40dd-b63c-720bb2d2feab",
+      "id": "9b53cb13-818e-415f-a791-e6fa22a04526",
       "name": "Sheet: Add Confirmed Booking",
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "LhXZSRB7hhs7Ok1t",
-          "name": "Google Sheets account"
+          "id": "3pOe6ys3X7PB7sJL",
+          "name": "tusarapi"
         }
       }
     },
@@ -329,19 +329,19 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        160,
-        416
+        64,
+        448
       ],
-      "id": "e927ce63-9146-4880-bc46-744710616cd8",
+      "id": "035f91e0-af37-4a17-9d9b-7e17d35df3dd",
       "name": "SMS: Notify Client"
     },
     {
       "parameters": {
         "calendar": {
           "__rl": true,
-          "value": "raysachin817@gmail.com",
+          "value": "tusarabout@gmail.com",
           "mode": "list",
-          "cachedResultName": "raysachin817@gmail.com"
+          "cachedResultName": "tusarabout@gmail.com"
         },
         "start": "={{ $json.Date }}T{{ $json.Start_Time }}:00+05:30",
         "end": "={{ $json.Date }}T{{ $json.End_Time }}:00+05:30",
@@ -353,34 +353,39 @@
       "type": "n8n-nodes-base.googleCalendar",
       "typeVersion": 1.3,
       "position": [
-        -144,
-        384
+        -240,
+        416
       ],
-      "id": "762c1f8a-bf8a-40e5-81d2-f0b18ee0e254",
+      "id": "e701de4f-48a7-4691-bf63-448b6eee29ba",
       "name": "Calendar: Create an event",
       "credentials": {
         "googleCalendarOAuth2Api": {
-          "id": "yf28ZBwVbRP85ABi",
-          "name": "Google Calendar account"
+          "id": "5cEoyMbrZwTcsTqg",
+          "name": "tusarabout"
         }
       }
     },
     {
       "parameters": {
         "chatId": "7427007352",
-        "text": "=🔔 New Appointment, Boss! 🔔\n\n👤 Client: {{ $json.Name }}\n💇 Service: {{ $json.Service }}\n📅 Date: {{ $json.Date }}\n⏰ Time: {{ $json.Slot }}\n📞 Phone: {{ $json.Phone }}",
+        "text": "=🔔 New Appointment, Boss! 🔔\n\n👤 Client: {{ $json.Name }}\n💇 Service: {{ $json.Service }}\n📅 Date: {{ $json.Date }}\n⏰ Time: {{ $json.Start_Time }} to {{ $json.End_Time }}\n📞 Phone: {{ $json.Phone }}",
         "additionalFields": {}
       },
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        368,
-        560
+        272,
+        592
       ],
-      "id": "d28eec5b-6404-4f21-a840-c1a00a83ab87",
+      "id": "0a566731-c43d-4b99-adcc-924087dc0729",
       "name": "Telegram: Notify Owner(1st Choice)",
       "webhookId": "0d709005-34b8-419f-b041-94ad5ee1a4e4",
-      "disabled": true
+      "credentials": {
+        "telegramApi": {
+          "id": "bFaExbZTDlks3qyg",
+          "name": "Telegram account"
+        }
+      }
     },
     {
       "parameters": {
@@ -408,10 +413,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        160,
-        720
+        64,
+        752
       ],
-      "id": "4033a332-381d-4b89-9198-e38921643ceb",
+      "id": "ae03111d-3777-4938-96e5-89d181a05f61",
       "name": "WhatsApp: Notify Owner(2nd Choice)"
     },
     {
@@ -423,18 +428,20 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.5,
       "position": [
-        -256,
-        560
+        -352,
+        592
       ],
-      "id": "6cde0aef-4e56-476b-bb76-f13e642e7b22",
+      "id": "2a43bab9-0535-4a5f-955f-0b638c48dd08",
       "name": "Tell Riley: Booking Confirmed"
     },
     {
       "parameters": {
         "documentId": {
           "__rl": true,
-          "value": "https://docs.google.com/spreadsheets/d/1UfoKP4YZVJMrcduCDcGy3y2h_d014B4-yINMSifVW6o/",
-          "mode": "url"
+          "value": "1UfoKP4YZVJMrcduCDcGy3y2h_d014B4-yINMSifVW6o",
+          "mode": "list",
+          "cachedResultName": "Barber Shop Database",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UfoKP4YZVJMrcduCDcGy3y2h_d014B4-yINMSifVW6o/edit?usp=drivesdk"
         },
         "sheetName": {
           "__rl": true,
@@ -460,16 +467,16 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        -480,
-        96
+        -576,
+        128
       ],
-      "id": "c3f14d37-9d12-41d9-98dc-8ee5d2f1fb07",
+      "id": "06992b17-12fe-463f-8ab5-372f689c64ab",
       "name": "Sheet: Lookup Existing Appointments",
       "alwaysOutputData": true,
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "LhXZSRB7hhs7Ok1t",
-          "name": "Google Sheets account"
+          "id": "3pOe6ys3X7PB7sJL",
+          "name": "tusarapi"
         }
       },
       "notes": "Searches the 'Bookings' tab for any records on the requested date."
@@ -481,13 +488,13 @@
             {
               "id": "ebfe9b25-8f74-4c99-9e84-842918d4524c",
               "name": "=requested_date",
-              "value": "={{ $json.body.message.toolCalls[0].function.arguments.date }}",
+              "value": "={{ Object.values($json.body.message.toolCalls[0].function)[1].date }}",
               "type": "string"
             },
             {
               "id": "52293311-e74f-4092-ac1f-2b69d26ecc1b",
               "name": "requested_time",
-              "value": "={{ $json.body.message.toolCalls[0].function.arguments.time }}",
+              "value": "={{ Object.values($json.body.message.toolCalls[0].function)[1].time }}",
               "type": "string"
             }
           ]
@@ -497,10 +504,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -688,
-        96
+        -784,
+        128
       ],
-      "id": "d2857082-a22e-425e-a6f9-f451c12fdb11",
+      "id": "51ad6282-f20b-4d9c-8f2e-5492a3f1ad49",
       "name": "Extract: Date & Time",
       "notes": "Formats the Date and Time from the call so it matches our Google Sheet columns."
     },
@@ -514,16 +521,46 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
       "position": [
-        -912,
-        560
+        -1008,
+        592
       ],
-      "id": "2151526a-89a9-4c20-87a8-49b27334bfed",
+      "id": "4a5cb76e-a951-457a-92a0-72eb466afe26",
       "name": "Book Slot",
       "webhookId": "1bae9591-44fe-4364-ab2f-5d7deba0f618",
       "notes": "This node is linked directly to Riley's 'addnew' function. It triggers when a customer says 'Yes' to an appointment and receives the booking details to start the automated process."
+    },
+    {
+      "parameters": {
+        "content": "Booking confirmation\n",
+        "height": 528,
+        "width": 1520
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1056,
+        400
+      ],
+      "typeVersion": 1,
+      "id": "c78e51d8-9793-48e8-bb88-584ea90e2cde",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "Check availiblity\n",
+        "height": 384,
+        "width": 1280,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1056,
+        -16
+      ],
+      "typeVersion": 1,
+      "id": "1b653a5f-13c2-4651-8257-20b7e9582d0f",
+      "name": "Sticky Note1"
     }
   ],
-  "pinData": {},
   "connections": {
     "getslot": {
       "main": [
@@ -636,20 +673,1301 @@
       ]
     }
   },
-  "active": true,
   "settings": {
     "executionOrder": "v1",
-    "binaryMode": "separate",
-    "availableInMCP": false,
-    "timeSavedMode": "fixed",
-    "timezone": "Asia/Kolkata",
-    "callerPolicy": "workflowsFromSameOwner"
+    "binaryMode": "separate"
   },
-  "versionId": "75370403-90ae-4bb9-ae97-d16d468c30a6",
+  "staticData": null,
+  "pinData": {
+    "getslot": [
+      {
+        "json": {
+          "headers": {
+            "host": "tusarkkk.app.n8n.cloud",
+            "user-agent": "axios/1.8.3",
+            "content-length": "22451",
+            "accept": "application/json, text/plain, */*",
+            "accept-encoding": "gzip, br",
+            "baggage": "sentry-environment=production,sentry-public_key=a0021577936aec367b16615ad816c078,sentry-trace_id=20e51683ad9d45dc9b93411bd9bd0ee2",
+            "cdn-loop": "cloudflare; loops=1; subreqs=1",
+            "cf-connecting-ip": "52.12.84.151",
+            "cf-ew-via": "15",
+            "cf-ipcountry": "US",
+            "cf-ray": "9ee2c8344d24cb90-PDX",
+            "cf-visitor": "{\"scheme\":\"https\"}",
+            "cf-worker": "n8n.cloud",
+            "content-type": "application/json",
+            "cookie": {
+              "__redacted": true,
+              "reason": "node_defined_field",
+              "canReveal": false
+            },
+            "sentry-trace": "20e51683ad9d45dc9b93411bd9bd0ee2-9565f1e130d5b7ec",
+            "x-call-id": "019da002-06b9-7000-ab6a-8c5704cb8948",
+            "x-forwarded-for": "52.12.84.151, 172.68.174.207",
+            "x-forwarded-host": "tusarkkk.app.n8n.cloud",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "traefik-prod-users-gwc-44-74757dc4f8-ggxc4",
+            "x-is-trusted": "yes",
+            "x-real-ip": "52.12.84.151",
+            "x-vapi-secret": ""
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "message": {
+              "timestamp": 1776506002438,
+              "type": "tool-calls",
+              "toolCalls": [
+                {
+                  "id": "call_yGYA2AGUbxbtApLJJSYX8N1c",
+                  "type": "function",
+                  "function": {
+                    "name": "checkAvailability",
+                    "arguments": {
+                      "date": "2026-04-19",
+                      "time": "12:00"
+                    }
+                  }
+                }
+              ],
+              "toolCallList": [
+                {
+                  "id": "call_yGYA2AGUbxbtApLJJSYX8N1c",
+                  "type": "function",
+                  "function": {
+                    "name": "checkAvailability",
+                    "arguments": {
+                      "date": "2026-04-19",
+                      "time": "12:00"
+                    }
+                  }
+                }
+              ],
+              "toolWithToolCallList": [
+                {
+                  "type": "function",
+                  "function": {
+                    "name": "checkAvailability",
+                    "parameters": {
+                      "type": "object",
+                      "required": [],
+                      "properties": {
+                        "date": {
+                          "type": "string",
+                          "default": "",
+                          "description": "The date requested by the customer."
+                        },
+                        "time": {
+                          "type": "string",
+                          "default": "",
+                          "description": ""
+                        }
+                      }
+                    },
+                    "description": " Check if the barber shop is free on a specific date and time."
+                  },
+                  "server": {
+                    "url": "https://tusarkkk.app.n8n.cloud/webhook/check-availability",
+                    "timeoutSeconds": 50
+                  },
+                  "messages": [
+                    {
+                      "type": "request-start",
+                      "contents": [],
+                      "conditions": [],
+                      "blocking": false
+                    }
+                  ],
+                  "variableExtractionPlan": {
+                    "schema": {
+                      "type": "object",
+                      "required": [],
+                      "properties": {}
+                    }
+                  },
+                  "toolCall": {
+                    "id": "call_yGYA2AGUbxbtApLJJSYX8N1c",
+                    "type": "function",
+                    "function": {
+                      "name": "checkAvailability",
+                      "arguments": {
+                        "date": "2026-04-19",
+                        "time": "12:00"
+                      }
+                    }
+                  }
+                }
+              ],
+              "artifact": {
+                "messages": [
+                  {
+                    "role": "system",
+                    "message": "[Identity]\nYou are Riley, a professional, friendly, and efficient AI receptionist for Imaad's Barber Shop. Your role is to guide customers through booking their barber services, ensuring accuracy and a seamless, human-like experience.\n\n[Style]\n- Use a warm, inviting, conversational tone.\n- Speak clearly, using simple and polite language.\n- Maintain professionalism but include natural speech elements.\n\n[TIMEZONE & DATE HANDLING]\n- UTC BASELINE: Apr 18, 2026, 9:53 AM UTC (This is the current server time).\n- IST CALCULATION: India is UTC + 5:30. Mentally calculate the current time in Mumbai/Kolkata by adding 5 hours and 30 minutes to Apr 18, 2026, 9:53 AM UTC.\n- RELATIVE DATES: \n  - If the Mumbai time has crossed midnight, it is \"Today.\"\n  - Always interpret \"Today,\" \"Tomorrow,\" and \"Day after\" based on the Mumbai (IST) clock, not the server clock.\n  - Never suggest a time that has already passed in Mumbai time.\n\n[SMART RECOGNITION]\n- If the customer provides multiple details (Service, Da...",
+                    "time": 1776505980697,
+                    "secondsFromStart": 0
+                  },
+                  {
+                    "role": "bot",
+                    "message": "Hi. I'm Riley from our barbershop. How may I help you today?",
+                    "time": 1776505981607,
+                    "endTime": 1776505984646,
+                    "secondsFromStart": 0.809,
+                    "duration": 3039,
+                    "source": ""
+                  },
+                  {
+                    "role": "user",
+                    "message": "Yes. I would like to book a combo.",
+                    "time": 1776505987330,
+                    "endTime": 1776505989293,
+                    "secondsFromStart": 6.444,
+                    "duration": 1963,
+                    "metadata": {
+                      "wordLevelConfidence": [
+                        {
+                          "word": "Yes.",
+                          "start": 1776505987330,
+                          "end": 1776505987575.375,
+                          "confidence": 1,
+                          "language": "",
+                          "punctuated_word": "Yes."
+                        },
+                        {
+                          "word": "I",
+                          "start": 1776505987575.375,
+                          "end": 1776505987820.75,
+                          "confidence": 1,
+                          "language": "",
+                          "punctuated_word": "I"
+                        },
+                        {
+                          "word": "would",
+                          "start": 1776505987820.75,
+                          "end": 1776505988066.125,
+                          "confidence": 1,
+                          "language": "",
+                          "punctuated_word": "would"
+                        },
+                        {
+                          "word": "like",
+                          "start": 1776505988066.125,
+                          "end": 1776505988311.5,
+                          "confidence": 1,
+                          "language": "",
+                          "punctuated_word": "like"
+                        },
+                        {
+                          "word": "to",
+                          "start": 1776505988311.5,
+                          "end": 1776505988556.875,
+                          "confidence": 1,
+                          "language": "",
+                          "punctuated_word": "to"
+                        },
+                        {
+                          "word": "book",
+                          "start": 1776505988556.875,
+                          "end": 1776505988802.25,
+                          "confidence": 0.999,
+                          "language": "",
+                          "punctuated_word": "book"
+                        },
+                        {
+                          "word": "a",
+                          "start": 1776505988802.25,
+                          "end": 1776505989047.625,
+                          "confidence": 1,
+                          "language": "",
+                          "punctuated_word": "a"
+                        },
+                        {
+                          "word": "combo.",
+                          "start": 1776505989047.625,
+                          "end": 1776505989293,
+                          "confidence": 1,
+                          "language": "",
+                          "punctuated_word": "combo."
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "role": "bot",
+                    "message": "Great choice. The hair plus beard combo is one of our most popular services. Could you please tell me which date you'd like to book your appointment for?",
+                    "time": 1776505991147,
+                    "endTime": 1776505998966,
+                    "secondsFromStart": 10.349,
+                    "duration": 7819,
+                    "source": ""
+                  },
+                  {
+                    "role": "user",
+                    "message": "Tomorrow, twelve PM.",
+                    "time": 1776506001008,
+                    "endTime": 1776506001933,
+                    "secondsFromStart": 20.122,
+                    "duration": 925,
+                    "metadata": {
+                      "wordLevelConfidence": [
+                        {
+                          "word": "Tomorrow,",
+                          "start": 1776506001008,
+                          "end": 1776506001316.3333,
+                          "confidence": 1,
+                          "language": "",
+                          "punctuated_word": "Tomorrow,"
+                        },
+                        {
+                          "word": "twelve",
+                          "start": 1776506001316.3333,
+                          "end": 1776506001624.6667,
+                          "confidence": 1,
+                          "language": "",
+                          "punctuated_word": "twelve"
+                        },
+                        {
+                          "word": "PM.",
+                          "start": 1776506001624.6667,
+                          "end": 1776506001933,
+                          "confidence": 1,
+                          "language": "",
+                          "punctuated_word": "PM."
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "toolCalls": [
+                      {
+                        "id": "call_yGYA2AGUbxbtApLJJSYX8N1c",
+                        "type": "function",
+                        "function": {
+                          "name": "checkAvailability",
+                          "arguments": "{\"date\": \"2026-04-19\", \"time\": \"12:00\"}"
+                        }
+                      }
+                    ],
+                    "role": "tool_calls",
+                    "message": "",
+                    "time": 1776506002436,
+                    "secondsFromStart": 21.638
+                  }
+                ],
+                "messagesOpenAIFormatted": [
+                  {
+                    "role": "system",
+                    "content": "[Identity]\nYou are Riley, a professional, friendly, and efficient AI receptionist for Imaad's Barber Shop. Your role is to guide customers through booking their barber services, ensuring accuracy and a seamless, human-like experience.\n\n[Style]\n- Use a warm, inviting, conversational tone.\n- Speak clearly, using simple and polite language.\n- Maintain professionalism but include natural speech elements.\n\n[TIMEZONE & DATE HANDLING]\n- UTC BASELINE: Apr 18, 2026, 9:53 AM UTC (This is the current server time).\n- IST CALCULATION: India is UTC + 5:30. Mentally calculate the current time in Mumbai/Kolkata by adding 5 hours and 30 minutes to Apr 18, 2026, 9:53 AM UTC.\n- RELATIVE DATES: \n  - If the Mumbai time has crossed midnight, it is \"Today.\"\n  - Always interpret \"Today,\" \"Tomorrow,\" and \"Day after\" based on the Mumbai (IST) clock, not the server clock.\n  - Never suggest a time that has already passed in Mumbai time.\n\n[SMART RECOGNITION]\n- If the customer provides multiple details (Service, Da..."
+                  },
+                  {
+                    "role": "assistant",
+                    "content": "Hi. I'm Riley from our barbershop. How may I help you today?"
+                  },
+                  {
+                    "role": "user",
+                    "content": "Yes. I would like to book a combo."
+                  },
+                  {
+                    "role": "assistant",
+                    "content": "Great choice. The hair plus beard combo is one of our most popular services. Could you please tell me which date you'd like to book your appointment for?"
+                  },
+                  {
+                    "role": "user",
+                    "content": "Tomorrow, twelve PM."
+                  },
+                  {
+                    "role": "assistant",
+                    "tool_calls": [
+                      {
+                        "id": "call_yGYA2AGUbxbtApLJJSYX8N1c",
+                        "type": "function",
+                        "function": {
+                          "name": "checkAvailability",
+                          "arguments": "{\"date\": \"2026-04-19\", \"time\": \"12:00\"}"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "role": "tool",
+                    "tool_call_id": "call_yGYA2AGUbxbtApLJJSYX8N1c",
+                    "content": "Tool Result Still Pending But Proceed Further If Possible."
+                  }
+                ],
+                "variables": {
+                  "now": "Apr 18, 2026, 9:53 AM UTC",
+                  "currentDateTime": "Saturday, April 18, 2026 at 9:53 AM UTC",
+                  "date": "Apr 18, 2026 UTC",
+                  "time": "9:53 AM UTC",
+                  "year": "2026",
+                  "month": "April",
+                  "day": "18",
+                  "customer": {
+                    "number": "+916291386060",
+                    "sipUri": "sip:+916291386060@44.229.228.186:5060"
+                  },
+                  "phoneNumber": {
+                    "id": "a5f6397a-e1a8-463a-8c01-f2aa60ef794f",
+                    "orgId": "75344087-c45f-455b-ade9-0f52eb8151b1",
+                    "assistantId": "4ab12ba3-eacc-4bad-ba5e-53d6d7206f08",
+                    "number": "+17622719052",
+                    "createdAt": "2026-04-18T06:47:48.307Z",
+                    "updatedAt": "2026-04-18T06:49:48.628Z",
+                    "name": "Sierra",
+                    "provider": "vapi",
+                    "status": "active",
+                    "providerResourceId": "4965bd8b-f7bc-4d70-bb24-8758cd60ce60"
+                  },
+                  "transport": {
+                    "conversationType": "voice",
+                    "provider": "vapi.sip",
+                    "callSid": "24dfec39-4246-44c0-88dc-2c3196183d17",
+                    "sbcCallSid": "841702621-3985494780-1307546024@msc1.382COM.COM"
+                  },
+                  "call": {
+                    "id": "019da002-06b9-7000-ab6a-8c5704cb8948",
+                    "type": "inboundPhoneCall",
+                    "status": "ringing",
+                    "createdAt": "2026-04-18T09:53:00.601Z",
+                    "phoneCallProvider": "vapi",
+                    "transport": {
+                      "conversationType": "voice",
+                      "provider": "vapi.sip",
+                      "callSid": "24dfec39-4246-44c0-88dc-2c3196183d17",
+                      "sbcCallSid": "841702621-3985494780-1307546024@msc1.382COM.COM"
+                    }
+                  },
+                  "cid": "841702621-3985494780-1307546024@msc1.382COM.COM",
+                  "account-sid": "c033b672-5b99-42ae-9ce2-b231e9a522fb",
+                  "forwarded-for": "64.125.111.10",
+                  "application-sid": "79d078c8-76b2-452a-99e0-ddd5abbf6269",
+                  "voip-carrier-sid": "a5569621-84ac-49cc-a8b8-11c7fb96b905",
+                  "originating-carrier": "382com"
+                },
+                "variableValues": {
+                  "now": "Apr 18, 2026, 9:53 AM UTC",
+                  "currentDateTime": "Saturday, April 18, 2026 at 9:53 AM UTC",
+                  "date": "Apr 18, 2026 UTC",
+                  "time": "9:53 AM UTC",
+                  "year": "2026",
+                  "month": "April",
+                  "day": "18",
+                  "customer": {
+                    "number": "+916291386060",
+                    "sipUri": "sip:+916291386060@44.229.228.186:5060"
+                  },
+                  "phoneNumber": {
+                    "id": "a5f6397a-e1a8-463a-8c01-f2aa60ef794f",
+                    "orgId": "75344087-c45f-455b-ade9-0f52eb8151b1",
+                    "assistantId": "4ab12ba3-eacc-4bad-ba5e-53d6d7206f08",
+                    "number": "+17622719052",
+                    "createdAt": "2026-04-18T06:47:48.307Z",
+                    "updatedAt": "2026-04-18T06:49:48.628Z",
+                    "name": "Sierra",
+                    "provider": "vapi",
+                    "status": "active",
+                    "providerResourceId": "4965bd8b-f7bc-4d70-bb24-8758cd60ce60"
+                  },
+                  "transport": {
+                    "conversationType": "voice",
+                    "provider": "vapi.sip",
+                    "callSid": "24dfec39-4246-44c0-88dc-2c3196183d17",
+                    "sbcCallSid": "841702621-3985494780-1307546024@msc1.382COM.COM"
+                  },
+                  "call": {
+                    "id": "019da002-06b9-7000-ab6a-8c5704cb8948",
+                    "type": "inboundPhoneCall",
+                    "status": "ringing",
+                    "createdAt": "2026-04-18T09:53:00.601Z",
+                    "phoneCallProvider": "vapi",
+                    "transport": {
+                      "conversationType": "voice",
+                      "provider": "vapi.sip",
+                      "callSid": "24dfec39-4246-44c0-88dc-2c3196183d17",
+                      "sbcCallSid": "841702621-3985494780-1307546024@msc1.382COM.COM"
+                    }
+                  },
+                  "cid": "841702621-3985494780-1307546024@msc1.382COM.COM",
+                  "account-sid": "c033b672-5b99-42ae-9ce2-b231e9a522fb",
+                  "forwarded-for": "64.125.111.10",
+                  "application-sid": "79d078c8-76b2-452a-99e0-ddd5abbf6269",
+                  "voip-carrier-sid": "a5569621-84ac-49cc-a8b8-11c7fb96b905",
+                  "originating-carrier": "382com"
+                }
+              },
+              "call": {
+                "id": "019da002-06b9-7000-ab6a-8c5704cb8948",
+                "orgId": "75344087-c45f-455b-ade9-0f52eb8151b1",
+                "createdAt": "2026-04-18T09:53:00.601Z",
+                "updatedAt": "2026-04-18T09:53:00.601Z",
+                "type": "inboundPhoneCall",
+                "cost": 0,
+                "monitor": {
+                  "listenUrl": "wss://phone-call-websocket.aws-us-west-2-backend-production2.vapi.ai/019da002-06b9-7000-ab6a-8c5704cb8948/listen",
+                  "controlUrl": "https://phone-call-websocket.aws-us-west-2-backend-production2.vapi.ai/019da002-06b9-7000-ab6a-8c5704cb8948/control"
+                },
+                "transport": {
+                  "conversationType": "voice",
+                  "provider": "vapi.sip",
+                  "callSid": "24dfec39-4246-44c0-88dc-2c3196183d17",
+                  "sbcCallSid": "841702621-3985494780-1307546024@msc1.382COM.COM"
+                },
+                "phoneCallProvider": "vapi",
+                "phoneCallProviderId": "24dfec39-4246-44c0-88dc-2c3196183d17",
+                "phoneCallTransport": "sip",
+                "phoneCallProviderDetails": {
+                  "sip": {
+                    "raw": "INVITE sip:7622719052@172.30.29.123:5060 SIP/2.0\r\nVia: SIP/2.0/UDP 44.229.228.186;rport=5060;branch=z9hG4bKZ2XKNN8X2QKUm;received=172.31.57.86\r\nMax-Forwards: 70\r\nFrom: <sip:+916291386060@44.229.228.186:5060>;tag=6cr7B26v7pvyB\r\nTo: <sip:7622719052@192.168.250.45>\r\nCall-ID: 39fdd8e0-b5af-123f-668a-0ec7040a32ad\r\nCSeq: 113699198 INVITE\r\nContact: <sip:172.31.57.86:5060>\r\nAccept: application/sdp\r\nAllow: PUBLISH, MESSAGE, UPDATE, PRACK, SUBSCRIBE, REFER, INFO, NOTIFY, REGISTER, OPTIONS, BYE, INVITE, ACK, CANCEL\r\nSupported: 100rel, timer\r\nMin-SE: 600\r\nPrivacy: none\r\nContent-Type: application/sdp\r\nContent-Length: 304\r\nX-Account-Sid: c033b672-5b99-42ae-9ce2-b231e9a522fb\r\nX-CID: 841702621-3985494780-1307546024@msc1.382COM.COM\r\nX-Forwarded-For: 64.125.111.10\r\nX-Originating-Carrier: 382com\r\nX-Voip-Carrier-Sid: a5569621-84ac-49cc-a8b8-11c7fb96b905\r\nX-Application-Sid: 79d078c8-76b2-452a-99e0-ddd5abbf6269\r\nIdentity: eyJhbGciOiJFUzI1NiIsInBwdCI6InNoYWtlbiIsInR5cCI6InBhc3Nwb3J0IiwieDV1IjoiaHR0cHM6Ly9jci5jY2lkLm5ldXN0YXIuYml6L2NjaWQvYXV0aG4vdjIvY2VydHMvMTExODQuMTExMDQucGVtIn0.eyJhdHRlc3QiOiJDIiwiZGVzdCI6eyJ0biI6WyIxNzYyMjcxOTA1MiJdfSwiaWF0IjoxNzc2NTA1OTgwLCJvcmlnIjp7InRuIjoiOTE2MjkxMzg2MDYwIn0sIm9yaWdpZCI6IjcwYzc4YTc0LWRhNzQtMTFlYi04ZDE5LTAyNDJhYzEzMDAwMyJ9.DsuWJlOYAdcwU7ID37ANMh1lHPVx_9lAEGK54XJuHlFupvh_X-1POctrirxNTFTIW52WeQF6Etk9W03jELESkQ;info=<https://cr.ccid.neustar.biz/ccid/authn/v2/certs/11184.11104.pem>;alg=ES256;ppt=\"shaken\"\r\nP-Asserted-Identity: <sip:+916291386060@207.223.78.171:5060>\r\n\r\nv=0\r\no=msc1 702711 824876 IN IP4 172.30.31.14\r\ns=sip call\r\nc=IN IP4 172.30.31.14\r\nt=0 0\r\nm=audio 59244 RTP/AVP 0 8 18 101\r\na=maxptime:20\r\na=rtpmap:0 PCMU/8000\r\na=rtpmap:8 PCMA/8000\r\na=rtpmap:18 G729/8000\r\na=fmtp:18 annexb=no\r\na=rtpmap:101 telephone-event/8000\r\na=fmtp:101 0-15\r\na=sendrecv\r\na=rtcp:59245\r\n",
+                    "uri": "sip:7622719052@172.30.29.123:5060",
+                    "body": "v=0\r\no=msc1 702711 824876 IN IP4 172.30.31.14\r\ns=sip call\r\nc=IN IP4 172.30.31.14\r\nt=0 0\r\nm=audio 59244 RTP/AVP 0 8 18 101\r\na=maxptime:20\r\na=rtpmap:0 PCMU/8000\r\na=rtpmap:8 PCMA/8000\r\na=rtpmap:18 G729/8000\r\na=fmtp:18 annexb=no\r\na=rtpmap:101 telephone-event/8000\r\na=fmtp:101 0-15\r\na=sendrecv\r\na=rtcp:59245\r\n",
+                    "method": "INVITE",
+                    "headers": {
+                      "to": "<sip:+17622719052@192.168.250.45>",
+                      "via": "SIP/2.0/UDP 44.229.228.186;rport=5060;branch=z9hG4bKZ2XKNN8X2QKUm;received=172.31.57.86",
+                      "cseq": "113699198 INVITE",
+                      "from": "<sip:+916291386060@44.229.228.186:5060>;tag=6cr7B26v7pvyB",
+                      "X-CID": "841702621-3985494780-1307546024@msc1.382COM.COM",
+                      "allow": "PUBLISH, MESSAGE, UPDATE, PRACK, SUBSCRIBE, REFER, INFO, NOTIFY, REGISTER, OPTIONS, BYE, INVITE, ACK, CANCEL",
+                      "accept": "application/sdp",
+                      "min-se": "600",
+                      "call-id": "39fdd8e0-b5af-123f-668a-0ec7040a32ad",
+                      "contact": "<sip:172.31.57.86:5060>",
+                      "privacy": "none",
+                      "identity": "eyJhbGciOiJFUzI1NiIsInBwdCI6InNoYWtlbiIsInR5cCI6InBhc3Nwb3J0IiwieDV1IjoiaHR0cHM6Ly9jci5jY2lkLm5ldXN0YXIuYml6L2NjaWQvYXV0aG4vdjIvY2VydHMvMTExODQuMTExMDQucGVtIn0.eyJhdHRlc3QiOiJDIiwiZGVzdCI6eyJ0biI6WyIxNzYyMjcxOTA1MiJdfSwiaWF0IjoxNzc2NTA1OTgwLCJvcmlnIjp7InRuIjoiOTE2MjkxMzg2MDYwIn0sIm9yaWdpZCI6IjcwYzc4YTc0LWRhNzQtMTFlYi04ZDE5LTAyNDJhYzEzMDAwMyJ9.DsuWJlOYAdcwU7ID37ANMh1lHPVx_9lAEGK54XJuHlFupvh_X-1POctrirxNTFTIW52WeQF6Etk9W03jELESkQ;info=<https://cr.ccid.neustar.biz/ccid/authn/v2/certs/11184.11104.pem>;alg=ES256;ppt=\"shaken\"",
+                      "supported": "100rel, timer",
+                      "content-type": "application/sdp",
+                      "max-forwards": "70",
+                      "X-Account-Sid": "c033b672-5b99-42ae-9ce2-b231e9a522fb",
+                      "content-length": "304",
+                      "X-Forwarded-For": "64.125.111.10",
+                      "X-Application-Sid": "79d078c8-76b2-452a-99e0-ddd5abbf6269",
+                      "X-Voip-Carrier-Sid": "a5569621-84ac-49cc-a8b8-11c7fb96b905",
+                      "p-asserted-identity": "<sip:+916291386060@207.223.78.171:5060>",
+                      "X-Originating-Carrier": "382com"
+                    },
+                    "payload": [
+                      {
+                        "type": "application/sdp",
+                        "content": "v=0\r\no=msc1 702711 824876 IN IP4 172.30.31.14\r\ns=sip call\r\nc=IN IP4 172.30.31.14\r\nt=0 0\r\nm=audio 59244 RTP/AVP 0 8 18 101\r\na=maxptime:20\r\na=rtpmap:0 PCMU/8000\r\na=rtpmap:8 PCMA/8000\r\na=rtpmap:18 G729/8000\r\na=fmtp:18 annexb=no\r\na=rtpmap:101 telephone-event/8000\r\na=fmtp:101 0-15\r\na=sendrecv\r\na=rtcp:59245\r\n"
+                      }
+                    ],
+                    "version": "2.0"
+                  },
+                  "sbcCallId": "841702621-3985494780-1307546024@msc1.382COM.COM"
+                },
+                "status": "ringing",
+                "assistantId": "4ab12ba3-eacc-4bad-ba5e-53d6d7206f08",
+                "assistantOverrides": {
+                  "variableValues": {
+                    "cid": "841702621-3985494780-1307546024@msc1.382COM.COM",
+                    "account-sid": "c033b672-5b99-42ae-9ce2-b231e9a522fb",
+                    "forwarded-for": "64.125.111.10",
+                    "application-sid": "79d078c8-76b2-452a-99e0-ddd5abbf6269",
+                    "voip-carrier-sid": "a5569621-84ac-49cc-a8b8-11c7fb96b905",
+                    "originating-carrier": "382com"
+                  }
+                },
+                "phoneNumberId": "a5f6397a-e1a8-463a-8c01-f2aa60ef794f",
+                "customer": {
+                  "number": "+916291386060",
+                  "sipUri": "sip:+916291386060@44.229.228.186:5060"
+                }
+              },
+              "phoneNumber": {
+                "id": "a5f6397a-e1a8-463a-8c01-f2aa60ef794f",
+                "orgId": "75344087-c45f-455b-ade9-0f52eb8151b1",
+                "assistantId": "4ab12ba3-eacc-4bad-ba5e-53d6d7206f08",
+                "number": "+17622719052",
+                "createdAt": "2026-04-18T06:47:48.307Z",
+                "updatedAt": "2026-04-18T06:49:48.628Z",
+                "name": "Sierra",
+                "provider": "vapi",
+                "status": "active",
+                "providerResourceId": "4965bd8b-f7bc-4d70-bb24-8758cd60ce60"
+              },
+              "customer": {
+                "number": "+916291386060",
+                "sipUri": "sip:+916291386060@44.229.228.186:5060"
+              },
+              "assistant": {
+                "id": "4ab12ba3-eacc-4bad-ba5e-53d6d7206f08",
+                "orgId": "75344087-c45f-455b-ade9-0f52eb8151b1",
+                "name": "Riley2",
+                "voice": {
+                  "voiceId": "Elliot",
+                  "provider": "vapi"
+                },
+                "createdAt": "2026-04-13T18:49:00.058Z",
+                "updatedAt": "2026-04-18T09:45:12.787Z",
+                "model": {
+                  "model": "gpt-4.1",
+                  "toolIds": [
+                    "4bd9d067-7c4d-46f3-ba63-683194118272",
+                    "b4c406b9-7d9d-4d1a-a5b0-e94228b5cb45"
+                  ],
+                  "messages": [
+                    {
+                      "role": "system",
+                      "content": "[Identity]\nYou are Riley, a professional, friendly, and efficient AI receptionist for Imaad's Barber Shop. Your role is to guide customers through booking their barber services, ensuring accuracy and a seamless, human-like experience.\n\n[Style]\n- Use a warm, inviting, conversational tone.\n- Speak clearly, using simple and polite language.\n- Maintain professionalism but include natural speech elements.\n\n[TIMEZONE & DATE HANDLING]\n- UTC BASELINE: Apr 18, 2026, 9:53 AM UTC (This is the current server time).\n- IST CALCULATION: India is UTC + 5:30. Mentally calculate the current time in Mumbai/Kolkata by adding 5 hours and 30 minutes to Apr 18, 2026, 9:53 AM UTC.\n- RELATIVE DATES: \n  - If the Mumbai time has crossed midnight, it is \"Today.\"\n  - Always interpret \"Today,\" \"Tomorrow,\" and \"Day after\" based on the Mumbai (IST) clock, not the server clock.\n  - Never suggest a time that has already passed in Mumbai time.\n\n[SMART RECOGNITION]\n- If the customer provides multiple details (Service, Date, or Time) in one sentence, acknowledge all of them immediately.\n- DO NOT ask for information the customer has already provided. Skip those steps and move to the next missing piece or call the tool.\n- NO TIME TRAVEL: Suggest times from 30 minutes ahead of the current Mumbai time onwards.\n- AM/PM CLARITY: Only ask for AM/PM if the customer did not specify it (e.g., \"at 9\"). If they said \"10 AM,\" skip the question.\n\n[CRITICAL RULES]\n1. IMMEDIACY: As soon as you have Service, Date, and Time, call 'checkAvailability' instantly.\n2. NO CONFIRMATION PAUSE: Once you have the customer's name and a 10-digit phone number, call 'finalizeBooking' immediately. Do NOT ask, \"Should I go ahead?\"—just do it and inform them it's done.\n3. DISCREET TOOLS: Never mention tool names like \"checkAvailability\" or \"finalizeBooking\" to the customer.\n4. SINGLE SLOT: Only check one time slot at a time.\n5. CLEAN PARAMETERS: When calling 'finalizeBooking', send ONLY numbers for 'total_price' and 'total_duration' (e.g., 250, 30).\n\n[Task & Goals]\nPHASE 1: THE CHECK\n1. Greet and ask for the service.\n2. Ask for the preferred date (calculate relative to Apr 18, 2026, 9:53 AM UTC). Confirm Month and Day.\n3. Ask for the preferred time (Clarify AM/PM).\n4. Call 'checkAvailability' instantly.\n\nPHASE 2: THE RESULT\n5. IF FREE: \"Great news, that slot is available!\" Move to Phase 3.\n6. IF BUSY: \"I'm sorry, that time is already booked.\" Suggest 2 other available slots between 9:00 AM and 9:00 PM based on the list provided by the tool.\n\nPHASE 3: THE BOOKING\n7. Collect the Name.\n8. Collect the Phone Number (Check for 10 digits).\n9. ONCE YOU HAVE BOTH, call 'finalizeBooking' with:\n   - name, phone, service, date (YYYY-MM-DD), time (HH:mm), total_price, total_duration.\n\n[Pricing & Services Reference]\n- Hours: 9:00 AM to 9:00 PM (Mon-Sun)\n- Standard Haircut: 250 (30 mins)\n- Beard Trim: 150 (15 mins)\n- Hair + Beard Combo: 350 (50 mins)\n- Face Massage: 200 (20 mins)\n- Skin Fade/Buzz Cut: 300 (45 mins)\n- Hair Color/Dye: 600 (60 mins)\n- Head Massage (Oil): 150 (15 mins)"
+                    }
+                  ],
+                  "provider": "openai",
+                  "temperature": 0.5,
+                  "tools": [
+                    {
+                      "id": "4bd9d067-7c4d-46f3-ba63-683194118272",
+                      "createdAt": "2026-04-13T19:03:58.665Z",
+                      "updatedAt": "2026-04-18T06:45:35.869Z",
+                      "type": "function",
+                      "function": {
+                        "name": "checkAvailability",
+                        "parameters": {
+                          "type": "object",
+                          "required": [],
+                          "properties": {
+                            "date": {
+                              "type": "string",
+                              "default": "",
+                              "description": "The date requested by the customer."
+                            },
+                            "time": {
+                              "type": "string",
+                              "default": "",
+                              "description": ""
+                            }
+                          }
+                        },
+                        "description": " Check if the barber shop is free on a specific date and time."
+                      },
+                      "messages": [
+                        {
+                          "type": "request-start",
+                          "blocking": false
+                        }
+                      ],
+                      "orgId": "75344087-c45f-455b-ade9-0f52eb8151b1",
+                      "server": {
+                        "url": "https://tusarkkk.app.n8n.cloud/webhook/check-availability",
+                        "timeoutSeconds": 50
+                      },
+                      "variableExtractionPlan": {
+                        "schema": {
+                          "type": "object",
+                          "required": [],
+                          "properties": {}
+                        }
+                      }
+                    },
+                    {
+                      "id": "b4c406b9-7d9d-4d1a-a5b0-e94228b5cb45",
+                      "createdAt": "2026-04-13T19:50:21.930Z",
+                      "updatedAt": "2026-04-18T06:46:03.358Z",
+                      "type": "function",
+                      "function": {
+                        "name": "finalizeBooking",
+                        "parameters": {
+                          "type": "object",
+                          "required": [],
+                          "properties": {
+                            "name": {
+                              "type": "string",
+                              "default": "",
+                              "description": ""
+                            },
+                            "date ": {
+                              "type": "string",
+                              "default": "",
+                              "description": ""
+                            },
+                            "time ": {
+                              "type": "string",
+                              "default": "",
+                              "description": ""
+                            },
+                            "phone ": {
+                              "type": "string",
+                              "default": "",
+                              "description": ""
+                            },
+                            "service": {
+                              "type": "string",
+                              "default": "",
+                              "description": ""
+                            },
+                            "total_price": {
+                              "type": "string",
+                              "default": "",
+                              "description": ""
+                            },
+                            "total_duration": {
+                              "type": "string",
+                              "default": "",
+                              "description": ""
+                            }
+                          }
+                        },
+                        "description": "Book the appointment once the customer confirms."
+                      },
+                      "messages": [
+                        {
+                          "type": "request-start",
+                          "blocking": false
+                        }
+                      ],
+                      "orgId": "75344087-c45f-455b-ade9-0f52eb8151b1",
+                      "server": {
+                        "url": "https://tusarkkk.app.n8n.cloud/webhook/sierra-booking-success",
+                        "timeoutSeconds": 64
+                      },
+                      "variableExtractionPlan": {
+                        "schema": {
+                          "type": "object",
+                          "required": [],
+                          "properties": {}
+                        }
+                      }
+                    }
+                  ]
+                },
+                "firstMessage": "Hi! I'm Riley from our Barber Shop. How may I help you today?",
+                "voicemailMessage": "Hello, this is Riley from Wellness Partners. I'm calling about your appointment. Please call us back at your earliest convenience so we can confirm your scheduling details.",
+                "endCallMessage": "Perfect! Your appointment has been scheduled. You'll receive a confirmation email shortly. Have a great day!",
+                "transcriber": {
+                  "model": "flux-general-en",
+                  "language": "en",
+                  "numerals": false,
+                  "provider": "deepgram",
+                  "endpointing": 300,
+                  "confidenceThreshold": 0.4
+                },
+                "clientMessages": [
+                  "conversation-update",
+                  "function-call",
+                  "hang",
+                  "model-output",
+                  "speech-update",
+                  "status-update",
+                  "transfer-update",
+                  "transcript",
+                  "tool-calls",
+                  "user-interrupted",
+                  "voice-input",
+                  "workflow.node.started",
+                  "assistant.started"
+                ],
+                "serverMessages": [
+                  "conversation-update",
+                  "end-of-call-report",
+                  "function-call",
+                  "hang",
+                  "speech-update",
+                  "status-update",
+                  "tool-calls",
+                  "transfer-destination-request",
+                  "handoff-destination-request",
+                  "user-interrupted",
+                  "assistant.started"
+                ],
+                "hipaaEnabled": false,
+                "analysisPlan": {
+                  "summaryPlan": {
+                    "enabled": false
+                  },
+                  "successEvaluationPlan": {
+                    "enabled": false
+                  }
+                },
+                "backgroundDenoisingEnabled": true,
+                "startSpeakingPlan": {
+                  "waitSeconds": 0.4,
+                  "transcriptionEndpointingPlan": {
+                    "onNumberSeconds": 0.5,
+                    "onPunctuationSeconds": 0.1,
+                    "onNoPunctuationSeconds": 1.5
+                  }
+                },
+                "variableValues": {
+                  "cid": "841702621-3985494780-1307546024@msc1.382COM.COM",
+                  "account-sid": "c033b672-5b99-42ae-9ce2-b231e9a522fb",
+                  "forwarded-for": "64.125.111.10",
+                  "application-sid": "79d078c8-76b2-452a-99e0-ddd5abbf6269",
+                  "voip-carrier-sid": "a5569621-84ac-49cc-a8b8-11c7fb96b905",
+                  "originating-carrier": "382com"
+                }
+              }
+            }
+          },
+          "webhookUrl": "https://tusarkkk.app.n8n.cloud/webhook/check-availability",
+          "executionMode": "production"
+        }
+      }
+    ],
+    "Book Slot": [
+      {
+        "json": {
+          "headers": {
+            "host": "tusarkkk.app.n8n.cloud",
+            "user-agent": "axios/1.8.3",
+            "content-length": "14458",
+            "accept": "application/json, text/plain, */*",
+            "accept-encoding": "gzip, br",
+            "baggage": "sentry-environment=production,sentry-public_key=b809f86cbb83b63ab694d80d4a81fe55,sentry-trace_id=2491171ec1ac4cc298498a0ac76970ba",
+            "cdn-loop": "cloudflare; loops=1; subreqs=1",
+            "cf-connecting-ip": "34.220.122.41",
+            "cf-ew-via": "15",
+            "cf-ipcountry": "US",
+            "cf-ray": "9ee2d2ddbe24ad76-PDX",
+            "cf-visitor": "{\"scheme\":\"https\"}",
+            "cf-worker": "n8n.cloud",
+            "content-type": "application/json",
+            "cookie": {
+              "__redacted": true,
+              "reason": "node_defined_field",
+              "canReveal": false
+            },
+            "sentry-trace": "2491171ec1ac4cc298498a0ac76970ba-a42b94b48fe18c2d",
+            "traceparent": "00-9c6bc577c195303b3aa08157719ab0d8-fddf5fb71ea466a4-01",
+            "x-chat-id": "b7816872-1985-4e7c-8a40-7cf37c847477",
+            "x-forwarded-for": "34.220.122.41, 104.23.160.20",
+            "x-forwarded-host": "tusarkkk.app.n8n.cloud",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "traefik-prod-users-gwc-44-74757dc4f8-flpht",
+            "x-is-trusted": "yes",
+            "x-real-ip": "34.220.122.41",
+            "x-vapi-secret": ""
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "message": {
+              "timestamp": 1776506439271,
+              "type": "tool-calls",
+              "toolCalls": [
+                {
+                  "id": "call_e7HdLRPDygX1yiMrOvRm7p3d",
+                  "type": "function",
+                  "function": {
+                    "name": "finalizeBooking",
+                    "arguments": {
+                      "name": "Aritra",
+                      "date": "2026-04-19",
+                      "time": "15:00",
+                      "phone": "6291386060",
+                      "service": "Hair + Beard Combo",
+                      "total_price": "350",
+                      "total_duration": "50"
+                    }
+                  }
+                }
+              ],
+              "toolCallList": [
+                {
+                  "id": "call_e7HdLRPDygX1yiMrOvRm7p3d",
+                  "type": "function",
+                  "function": {
+                    "name": "finalizeBooking",
+                    "arguments": {
+                      "name": "Aritra",
+                      "date": "2026-04-19",
+                      "time": "15:00",
+                      "phone": "6291386060",
+                      "service": "Hair + Beard Combo",
+                      "total_price": "350",
+                      "total_duration": "50"
+                    }
+                  }
+                }
+              ],
+              "toolWithToolCallList": [
+                {
+                  "type": "function",
+                  "function": {
+                    "name": "finalizeBooking",
+                    "parameters": {
+                      "type": "object",
+                      "required": [],
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "default": "",
+                          "description": ""
+                        },
+                        "date ": {
+                          "type": "string",
+                          "default": "",
+                          "description": ""
+                        },
+                        "time ": {
+                          "type": "string",
+                          "default": "",
+                          "description": ""
+                        },
+                        "phone ": {
+                          "type": "string",
+                          "default": "",
+                          "description": ""
+                        },
+                        "service": {
+                          "type": "string",
+                          "default": "",
+                          "description": ""
+                        },
+                        "total_price": {
+                          "type": "string",
+                          "default": "",
+                          "description": ""
+                        },
+                        "total_duration": {
+                          "type": "string",
+                          "default": "",
+                          "description": ""
+                        }
+                      }
+                    },
+                    "description": "Book the appointment once the customer confirms."
+                  },
+                  "server": {
+                    "url": "https://tusarkkk.app.n8n.cloud/webhook/sierra-booking-success",
+                    "timeoutSeconds": 64,
+                    "headers": {
+                      "X-Chat-Id": "b7816872-1985-4e7c-8a40-7cf37c847477"
+                    }
+                  },
+                  "messages": [
+                    {
+                      "type": "request-start",
+                      "contents": [],
+                      "conditions": [],
+                      "blocking": false
+                    }
+                  ],
+                  "variableExtractionPlan": {
+                    "schema": {
+                      "type": "object",
+                      "required": [],
+                      "properties": {}
+                    }
+                  },
+                  "toolCall": {
+                    "id": "call_e7HdLRPDygX1yiMrOvRm7p3d",
+                    "type": "function",
+                    "function": {
+                      "name": "finalizeBooking",
+                      "arguments": {
+                        "name": "Aritra",
+                        "date": "2026-04-19",
+                        "time": "15:00",
+                        "phone": "6291386060",
+                        "service": "Hair + Beard Combo",
+                        "total_price": "350",
+                        "total_duration": "50"
+                      }
+                    }
+                  }
+                }
+              ],
+              "artifact": {
+                "messages": [
+                  {
+                    "role": "system",
+                    "message": "[Identity]\nYou are Riley, a professional, friendly, and efficient AI receptionist for Imaad's Barber Shop. Your role is to guide customers through booking their barber services, ensuring accuracy and a seamless, human-like experience.\n\n[Style]\n- Use a warm, inviting, conversational tone.\n- Speak clearly, using simple and polite language.\n- Maintain professionalism but include natural speech elements.\n\n[TIMEZONE & DATE HANDLING]\n- UTC BASELINE: Apr 18, 2026, 10:00 AM UTC (This is the current server time).\n- IST CALCULATION: India is UTC + 5:30. Mentally calculate the current time in Mumbai/Kolkata by adding 5 hours and 30 minutes to Apr 18, 2026, 10:00 AM UTC.\n- RELATIVE DATES: \n  - If the Mumbai time has crossed midnight, it is \"Today.\"\n  - Always interpret \"Today,\" \"Tomorrow,\" and \"Day after\" based on the Mumbai (IST) clock, not the server clock.\n  - Never suggest a time that has already passed in Mumbai time.\n\n[SMART RECOGNITION]\n- If the customer provides multiple details (Service, ...",
+                    "time": 1776506438641,
+                    "secondsFromStart": 0
+                  },
+                  {
+                    "role": "bot",
+                    "message": "Hi! I'm Riley from our Barber Shop. How may I help you today?",
+                    "time": 1776506438641,
+                    "secondsFromStart": 0,
+                    "endTime": 1776506438641
+                  },
+                  {
+                    "role": "user",
+                    "message": "i would like to book a combo",
+                    "time": 1776506438642,
+                    "secondsFromStart": 0,
+                    "endTime": 1776506438641
+                  },
+                  {
+                    "role": "bot",
+                    "message": "Great choice! The Hair + Beard Combo is a popular service.\n\nCould you please let me know which date you'd like to book your appointment?",
+                    "time": 1776506438643,
+                    "secondsFromStart": 0,
+                    "endTime": 1776506438641
+                  },
+                  {
+                    "role": "user",
+                    "message": "tomorrow 3pm",
+                    "time": 1776506438644,
+                    "secondsFromStart": 0,
+                    "endTime": 1776506438641
+                  },
+                  {
+                    "role": "tool_calls",
+                    "toolCalls": [
+                      {
+                        "id": "call_qrWHpPlS3sWo9JrOpE7A2psb",
+                        "type": "function",
+                        "function": {
+                          "name": "checkAvailability",
+                          "arguments": "{\"date\": \"2026-04-19\", \"time\": \"15:00\"}"
+                        }
+                      }
+                    ],
+                    "message": "",
+                    "time": 1776506438645,
+                    "secondsFromStart": 0
+                  },
+                  {
+                    "role": "tool_call_result",
+                    "toolCallId": "call_qrWHpPlS3sWo9JrOpE7A2psb",
+                    "name": "call_qrWHpPlS3sWo9JrOpE7A2psb",
+                    "result": "Slot is Free! Proceed with booking.",
+                    "time": 1776506438646,
+                    "secondsFromStart": 0
+                  },
+                  {
+                    "role": "bot",
+                    "message": "Great news, that slot is available!\n\nMay I have your name, please?",
+                    "time": 1776506438647,
+                    "secondsFromStart": 0,
+                    "endTime": 1776506438641
+                  },
+                  {
+                    "role": "user",
+                    "message": "Aritra",
+                    "time": 1776506438648,
+                    "secondsFromStart": 0,
+                    "endTime": 1776506438641
+                  },
+                  {
+                    "role": "bot",
+                    "message": "Thank you, Aritra! Could you please share your 10-digit phone number for the booking?",
+                    "time": 1776506438649,
+                    "secondsFromStart": 0,
+                    "endTime": 1776506438641
+                  },
+                  {
+                    "role": "user",
+                    "message": "6291386060",
+                    "time": 1776506438650,
+                    "secondsFromStart": 0,
+                    "endTime": 1776506438641
+                  },
+                  {
+                    "toolCalls": [
+                      {
+                        "id": "call_e7HdLRPDygX1yiMrOvRm7p3d",
+                        "type": "function",
+                        "function": {
+                          "name": "finalizeBooking",
+                          "arguments": "{\n  \"name\": \"Aritra\",\n  \"date\": \"2026-04-19\",\n  \"time\": \"15:00\",\n  \"phone\": \"6291386060\",\n  \"service\": \"Hair + Beard Combo\",\n  \"total_price\": \"350\",\n  \"total_duration\": \"50\"\n}"
+                        }
+                      }
+                    ],
+                    "role": "tool_calls",
+                    "message": "",
+                    "time": 1776506439265,
+                    "secondsFromStart": 0.624
+                  }
+                ],
+                "messagesOpenAIFormatted": [
+                  {
+                    "role": "system",
+                    "content": "[Identity]\nYou are Riley, a professional, friendly, and efficient AI receptionist for Imaad's Barber Shop. Your role is to guide customers through booking their barber services, ensuring accuracy and a seamless, human-like experience.\n\n[Style]\n- Use a warm, inviting, conversational tone.\n- Speak clearly, using simple and polite language.\n- Maintain professionalism but include natural speech elements.\n\n[TIMEZONE & DATE HANDLING]\n- UTC BASELINE: Apr 18, 2026, 10:00 AM UTC (This is the current server time).\n- IST CALCULATION: India is UTC + 5:30. Mentally calculate the current time in Mumbai/Kolkata by adding 5 hours and 30 minutes to Apr 18, 2026, 10:00 AM UTC.\n- RELATIVE DATES: \n  - If the Mumbai time has crossed midnight, it is \"Today.\"\n  - Always interpret \"Today,\" \"Tomorrow,\" and \"Day after\" based on the Mumbai (IST) clock, not the server clock.\n  - Never suggest a time that has already passed in Mumbai time.\n\n[SMART RECOGNITION]\n- If the customer provides multiple details (Service, ..."
+                  },
+                  {
+                    "role": "assistant",
+                    "content": "Hi! I'm Riley from our Barber Shop. How may I help you today?"
+                  },
+                  {
+                    "role": "user",
+                    "content": "i would like to book a combo"
+                  },
+                  {
+                    "role": "assistant",
+                    "content": "Great choice! The Hair + Beard Combo is a popular service.\n\nCould you please let me know which date you'd like to book your appointment?"
+                  },
+                  {
+                    "role": "user",
+                    "content": "tomorrow 3pm"
+                  },
+                  {
+                    "role": "assistant",
+                    "tool_calls": [
+                      {
+                        "id": "call_qrWHpPlS3sWo9JrOpE7A2psb",
+                        "type": "function",
+                        "function": {
+                          "name": "checkAvailability",
+                          "arguments": "{\"date\": \"2026-04-19\", \"time\": \"15:00\"}"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "role": "tool",
+                    "tool_call_id": "call_qrWHpPlS3sWo9JrOpE7A2psb",
+                    "content": "Slot is Free! Proceed with booking."
+                  },
+                  {
+                    "role": "assistant",
+                    "content": "Great news, that slot is available!\n\nMay I have your name, please?"
+                  },
+                  {
+                    "role": "user",
+                    "content": "Aritra"
+                  },
+                  {
+                    "role": "assistant",
+                    "content": "Thank you, Aritra! Could you please share your 10-digit phone number for the booking?"
+                  },
+                  {
+                    "role": "user",
+                    "content": "6291386060"
+                  },
+                  {
+                    "role": "assistant",
+                    "tool_calls": [
+                      {
+                        "id": "call_e7HdLRPDygX1yiMrOvRm7p3d",
+                        "type": "function",
+                        "function": {
+                          "name": "finalizeBooking",
+                          "arguments": "{\n  \"name\": \"Aritra\",\n  \"date\": \"2026-04-19\",\n  \"time\": \"15:00\",\n  \"phone\": \"6291386060\",\n  \"service\": \"Hair + Beard Combo\",\n  \"total_price\": \"350\",\n  \"total_duration\": \"50\"\n}"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "role": "tool",
+                    "tool_call_id": "call_e7HdLRPDygX1yiMrOvRm7p3d",
+                    "content": "Tool Result Still Pending But Proceed Further If Possible."
+                  }
+                ]
+              },
+              "chat": {
+                "id": "b7816872-1985-4e7c-8a40-7cf37c847477",
+                "orgId": "75344087-c45f-455b-ade9-0f52eb8151b1",
+                "createdAt": "2026-03-17T16:25:23.414Z",
+                "updatedAt": "2026-04-18T09:55:05.278Z"
+              },
+              "assistant": {
+                "id": "4ab12ba3-eacc-4bad-ba5e-53d6d7206f08",
+                "orgId": "75344087-c45f-455b-ade9-0f52eb8151b1",
+                "name": "Riley2",
+                "voice": {
+                  "voiceId": "Elliot",
+                  "provider": "vapi"
+                },
+                "createdAt": "2026-04-13T18:49:00.058Z",
+                "updatedAt": "2026-04-18T09:45:12.787Z",
+                "model": {
+                  "model": "gpt-4.1",
+                  "toolIds": [
+                    "4bd9d067-7c4d-46f3-ba63-683194118272",
+                    "b4c406b9-7d9d-4d1a-a5b0-e94228b5cb45"
+                  ],
+                  "messages": [
+                    {
+                      "role": "system",
+                      "content": "[Identity]\nYou are Riley, a professional, friendly, and efficient AI receptionist for Imaad's Barber Shop. Your role is to guide customers through booking their barber services, ensuring accuracy and a seamless, human-like experience.\n\n[Style]\n- Use a warm, inviting, conversational tone.\n- Speak clearly, using simple and polite language.\n- Maintain professionalism but include natural speech elements.\n\n[TIMEZONE & DATE HANDLING]\n- UTC BASELINE: Apr 18, 2026, 10:00 AM UTC (This is the current server time).\n- IST CALCULATION: India is UTC + 5:30. Mentally calculate the current time in Mumbai/Kolkata by adding 5 hours and 30 minutes to Apr 18, 2026, 10:00 AM UTC.\n- RELATIVE DATES: \n  - If the Mumbai time has crossed midnight, it is \"Today.\"\n  - Always interpret \"Today,\" \"Tomorrow,\" and \"Day after\" based on the Mumbai (IST) clock, not the server clock.\n  - Never suggest a time that has already passed in Mumbai time.\n\n[SMART RECOGNITION]\n- If the customer provides multiple details (Service, Date, or Time) in one sentence, acknowledge all of them immediately.\n- DO NOT ask for information the customer has already provided. Skip those steps and move to the next missing piece or call the tool.\n- NO TIME TRAVEL: Suggest times from 30 minutes ahead of the current Mumbai time onwards.\n- AM/PM CLARITY: Only ask for AM/PM if the customer did not specify it (e.g., \"at 9\"). If they said \"10 AM,\" skip the question.\n\n[CRITICAL RULES]\n1. IMMEDIACY: As soon as you have Service, Date, and Time, call 'checkAvailability' instantly.\n2. NO CONFIRMATION PAUSE: Once you have the customer's name and a 10-digit phone number, call 'finalizeBooking' immediately. Do NOT ask, \"Should I go ahead?\"—just do it and inform them it's done.\n3. DISCREET TOOLS: Never mention tool names like \"checkAvailability\" or \"finalizeBooking\" to the customer.\n4. SINGLE SLOT: Only check one time slot at a time.\n5. CLEAN PARAMETERS: When calling 'finalizeBooking', send ONLY numbers for 'total_price' and 'total_duration' (e.g., 250, 30).\n\n[Task & Goals]\nPHASE 1: THE CHECK\n1. Greet and ask for the service.\n2. Ask for the preferred date (calculate relative to Apr 18, 2026, 10:00 AM UTC). Confirm Month and Day.\n3. Ask for the preferred time (Clarify AM/PM).\n4. Call 'checkAvailability' instantly.\n\nPHASE 2: THE RESULT\n5. IF FREE: \"Great news, that slot is available!\" Move to Phase 3.\n6. IF BUSY: \"I'm sorry, that time is already booked.\" Suggest 2 other available slots between 9:00 AM and 9:00 PM based on the list provided by the tool.\n\nPHASE 3: THE BOOKING\n7. Collect the Name.\n8. Collect the Phone Number (Check for 10 digits).\n9. ONCE YOU HAVE BOTH, call 'finalizeBooking' with:\n   - name, phone, service, date (YYYY-MM-DD), time (HH:mm), total_price, total_duration.\n\n[Pricing & Services Reference]\n- Hours: 9:00 AM to 9:00 PM (Mon-Sun)\n- Standard Haircut: 250 (30 mins)\n- Beard Trim: 150 (15 mins)\n- Hair + Beard Combo: 350 (50 mins)\n- Face Massage: 200 (20 mins)\n- Skin Fade/Buzz Cut: 300 (45 mins)\n- Hair Color/Dye: 600 (60 mins)\n- Head Massage (Oil): 150 (15 mins)"
+                    }
+                  ],
+                  "provider": "openai",
+                  "temperature": 0.5,
+                  "tools": [
+                    {
+                      "id": "4bd9d067-7c4d-46f3-ba63-683194118272",
+                      "createdAt": "2026-04-13T19:03:58.665Z",
+                      "updatedAt": "2026-04-18T06:45:35.869Z",
+                      "type": "function",
+                      "function": {
+                        "name": "checkAvailability",
+                        "parameters": {
+                          "type": "object",
+                          "required": [],
+                          "properties": {
+                            "date": {
+                              "type": "string",
+                              "default": "",
+                              "description": "The date requested by the customer."
+                            },
+                            "time": {
+                              "type": "string",
+                              "default": "",
+                              "description": ""
+                            }
+                          }
+                        },
+                        "description": " Check if the barber shop is free on a specific date and time."
+                      },
+                      "messages": [
+                        {
+                          "type": "request-start",
+                          "blocking": false
+                        }
+                      ],
+                      "orgId": "75344087-c45f-455b-ade9-0f52eb8151b1",
+                      "server": {
+                        "url": "https://tusarkkk.app.n8n.cloud/webhook/check-availability",
+                        "timeoutSeconds": 50,
+                        "headers": {
+                          "X-Chat-Id": "b7816872-1985-4e7c-8a40-7cf37c847477"
+                        }
+                      },
+                      "variableExtractionPlan": {
+                        "schema": {
+                          "type": "object",
+                          "required": [],
+                          "properties": {}
+                        }
+                      }
+                    },
+                    {
+                      "id": "b4c406b9-7d9d-4d1a-a5b0-e94228b5cb45",
+                      "createdAt": "2026-04-13T19:50:21.930Z",
+                      "updatedAt": "2026-04-18T06:46:03.358Z",
+                      "type": "function",
+                      "function": {
+                        "name": "finalizeBooking",
+                        "parameters": {
+                          "type": "object",
+                          "required": [],
+                          "properties": {
+                            "name": {
+                              "type": "string",
+                              "default": "",
+                              "description": ""
+                            },
+                            "date ": {
+                              "type": "string",
+                              "default": "",
+                              "description": ""
+                            },
+                            "time ": {
+                              "type": "string",
+                              "default": "",
+                              "description": ""
+                            },
+                            "phone ": {
+                              "type": "string",
+                              "default": "",
+                              "description": ""
+                            },
+                            "service": {
+                              "type": "string",
+                              "default": "",
+                              "description": ""
+                            },
+                            "total_price": {
+                              "type": "string",
+                              "default": "",
+                              "description": ""
+                            },
+                            "total_duration": {
+                              "type": "string",
+                              "default": "",
+                              "description": ""
+                            }
+                          }
+                        },
+                        "description": "Book the appointment once the customer confirms."
+                      },
+                      "messages": [
+                        {
+                          "type": "request-start",
+                          "blocking": false
+                        }
+                      ],
+                      "orgId": "75344087-c45f-455b-ade9-0f52eb8151b1",
+                      "server": {
+                        "url": "https://tusarkkk.app.n8n.cloud/webhook/sierra-booking-success",
+                        "timeoutSeconds": 64,
+                        "headers": {
+                          "X-Chat-Id": "b7816872-1985-4e7c-8a40-7cf37c847477"
+                        }
+                      },
+                      "variableExtractionPlan": {
+                        "schema": {
+                          "type": "object",
+                          "required": [],
+                          "properties": {}
+                        }
+                      }
+                    }
+                  ]
+                },
+                "firstMessage": "Hi! I'm Riley from our Barber Shop. How may I help you today?",
+                "voicemailMessage": "Hello, this is Riley from Wellness Partners. I'm calling about your appointment. Please call us back at your earliest convenience so we can confirm your scheduling details.",
+                "endCallMessage": "Perfect! Your appointment has been scheduled. You'll receive a confirmation email shortly. Have a great day!",
+                "transcriber": {
+                  "model": "flux-general-en",
+                  "language": "en",
+                  "numerals": false,
+                  "provider": "deepgram",
+                  "endpointing": 300,
+                  "confidenceThreshold": 0.4
+                },
+                "clientMessages": [
+                  "conversation-update",
+                  "function-call",
+                  "hang",
+                  "model-output",
+                  "speech-update",
+                  "status-update",
+                  "transfer-update",
+                  "transcript",
+                  "tool-calls",
+                  "user-interrupted",
+                  "voice-input",
+                  "workflow.node.started",
+                  "assistant.started"
+                ],
+                "serverMessages": [
+                  "conversation-update",
+                  "end-of-call-report",
+                  "function-call",
+                  "hang",
+                  "speech-update",
+                  "status-update",
+                  "tool-calls",
+                  "transfer-destination-request",
+                  "handoff-destination-request",
+                  "user-interrupted",
+                  "assistant.started"
+                ],
+                "hipaaEnabled": false,
+                "analysisPlan": {
+                  "summaryPlan": {
+                    "enabled": false
+                  },
+                  "successEvaluationPlan": {
+                    "enabled": false
+                  }
+                },
+                "backgroundDenoisingEnabled": true,
+                "startSpeakingPlan": {
+                  "waitSeconds": 0.4,
+                  "transcriptionEndpointingPlan": {
+                    "onNumberSeconds": 0.5,
+                    "onPunctuationSeconds": 0.1,
+                    "onNoPunctuationSeconds": 1.5
+                  }
+                }
+              }
+            }
+          },
+          "webhookUrl": "https://tusarkkk.app.n8n.cloud/webhook/sierra-booking-success",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "triggerCount": 2,
   "meta": {
-    "templateCredsSetupCompleted": true,
-    "instanceId": "a097444bbd5041975a9c259c9840818f1b49b7e760b7c3969feb255fdc371cec"
-  },
-  "id": "uZYLokAMz0LxaLoA",
-  "tags": []
+    "templateCredsSetupCompleted": true
+  }
 }
